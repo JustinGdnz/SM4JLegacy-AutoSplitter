@@ -28,7 +28,7 @@ startup
         settings.SetToolTip("warppies", "Hacer split al salir de un warp pipe");
 
     settings.Add("Campaign", false, "Campañas Normales", "basegame");
-        settings.SetToolTip("Campaign", "Campañas hechas con el motor del juego\n\nIncluye: (Operacion Rescate, Niveles de la Beta)");
+        settings.SetToolTip("Campaign", "Campañas hechas con el motor del juego\n\nIncluye: (Operacion Rescate, Niveles de la Beta)\nINCOMPATIBLE CON NIVELES HECHOS CON EL LEVEL EDITOR");
     
     settings.Add("Campaign_StartEnd", false, "Inicio a Fin", "Campaign");
         settings.SetToolTip("Campaign_StartEnd", "Un solo split, inicia al entrar al primer nivel y termina al completar el ultimo nivel de la camapaña");
@@ -86,7 +86,7 @@ start
             else if (old.gm_room == 153 && current.gm_room == 225)
             {
                 vars.worldmap = 153;
-                vars.last_level = 0;
+                vars.last_level = 255;
                 return true;
             }
         }
