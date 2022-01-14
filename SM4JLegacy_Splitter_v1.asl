@@ -24,8 +24,10 @@ startup
     settings.Add("basegame", false, "Modos de Juego");
     settings.Add("reset_on", true, "Reiniciar al salir del nivel");
         settings.SetToolTip("reset_on", "Cada que entres a un nivel y vuelvas al worldmap desde el menu de pausa el split se reiniciara automaticamente si NO completaste el nivel aun");
-    settings.Add("warppies", true, "WarpPipes Split");
-        settings.SetToolTip("warppies", "Hacer split al salir de un warp pipe");
+    settings.Add("warppipes", true, "WarpPipes Split");
+        settings.SetToolTip("warppipes", "Hacer split al salir de un warp pipe");
+    settings.Add("or_bowser", true, "Bowser Split");
+        settings.SetToolTip("or_bowser", "Hacer split en la batalla final con bowser en Operacion Rescate");
 
     settings.Add("Campaign", false, "Campañas Normales", "basegame");
         settings.SetToolTip("Campaign", "Campañas hechas con el motor del juego\n\nIncluye: (Operacion Rescate, Niveles de la Beta)\nINCOMPATIBLE CON NIVELES HECHOS CON EL LEVEL EDITOR");
@@ -111,14 +113,19 @@ split
     {
         if (settings["Campaign_SplitAll"])
         {
-            if (settings["warppies"])
+            if (settings["or_bowser"])
             {
-                return (old.level_clear < 1 && current.level_clear > 0 && current.gm_room != 294) || (old.gm_room == 294 && current.gm_room == vars.worldmap);
+                if (old.gm_room == 254 && current.gm_room == 255)
+                    return true;
             }
-            else
+
+            if (settings["warppipes"])
             {
-                return old.level_clear < 1 && current.level_clear > 0 && current.gm_room != 294;
+                if ((old.gm_room == 294 || old.gm_room == 244) && current.gm_room == vars.worldmap)
+                    return true;
             }
+
+            return old.level_clear < 1 && current.level_clear > 0 && (current.gm_room != 294 && current.gm_room != 244);
         }
         if (settings["Campaign_StartEnd"])
             return current.gm_room == vars.last_level && current.level_clear > 0;
