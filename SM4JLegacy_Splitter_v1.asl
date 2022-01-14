@@ -24,9 +24,11 @@ startup
     settings.Add("basegame", false, "Modos de Juego");
     settings.Add("reset_on", true, "Reiniciar al salir del nivel");
         settings.SetToolTip("reset_on", "Cada que entres a un nivel y vuelvas al worldmap desde el menu de pausa el split se reiniciara automaticamente si NO completaste el nivel aun");
+    settings.Add("warppies", true, "WarpPipes Split");
+        settings.SetToolTip("warppies", "Hacer split al salir de un warp pipe");
 
     settings.Add("Campaign", false, "Campañas Normales", "basegame");
-        settings.SetToolTip("Campaign", "Campañas hechas con el motor del juego\n\nIncluye: (Operacion Rescate[Deshabilitado de momento], Niveles de la Beta)");
+        settings.SetToolTip("Campaign", "Campañas hechas con el motor del juego\n\nIncluye: (Operacion Rescate, Niveles de la Beta)");
     
     settings.Add("Campaign_StartEnd", false, "Inicio a Fin", "Campaign");
         settings.SetToolTip("Campaign_StartEnd", "Un solo split, inicia al entrar al primer nivel y termina al completar el ultimo nivel de la camapaña");
@@ -81,12 +83,12 @@ start
                 vars.last_level = 173;
                 return true;
             }
-//            else if (old.gm_room == 153 && current.gm_room == 225)
-//            {
-//                vars.worldmap = 153;
-//                vars.last_level = 0;
-//                return true;
-//            }
+            else if (old.gm_room == 153 && current.gm_room == 225)
+            {
+                vars.worldmap = 153;
+                vars.last_level = 0;
+                return true;
+            }
         }
     }
 
@@ -108,7 +110,16 @@ split
     if (settings["Campaign"])
     {
         if (settings["Campaign_SplitAll"])
-            return old.level_clear < 1 && current.level_clear > 0;
+        {
+            if (settings["warppies"])
+            {
+                return (old.level_clear < 1 && current.level_clear > 0 && current.gm_room != 294) || (old.gm_room == 294 && current.gm_room == vars.worldmap);
+            }
+            else
+            {
+                return old.level_clear < 1 && current.level_clear > 0 && current.gm_room != 294;
+            }
+        }
         if (settings["Campaign_StartEnd"])
             return current.gm_room == vars.last_level && current.level_clear > 0;
     }
