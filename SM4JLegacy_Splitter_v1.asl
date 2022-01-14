@@ -26,7 +26,7 @@ startup
         settings.SetToolTip("reset_on", "Cada que entres a un nivel y vuelvas al worldmap desde el menu de pausa el split se reiniciara automaticamente si NO completaste el nivel aun");
 
     settings.Add("Campaign", false, "Campañas Normales", "basegame");
-        settings.SetToolTip("Campaign", "Campañas hechas con el motor del juego\n\nIncluye: (Operacion Rescate, Niveles de la Beta)");
+        settings.SetToolTip("Campaign", "Campañas hechas con el motor del juego\n\nIncluye: (Operacion Rescate[Deshabilitado de momento], Niveles de la Beta)");
     
     settings.Add("Campaign_StartEnd", false, "Inicio a Fin", "Campaign");
         settings.SetToolTip("Campaign_StartEnd", "Un solo split, inicia al entrar al primer nivel y termina al completar el ultimo nivel de la camapaña");
@@ -81,12 +81,12 @@ start
                 vars.last_level = 173;
                 return true;
             }
-            else if (old.gm_room == 153 && current.gm_room == 225)
-            {
-                vars.worldmap = 153;
-                vars.last_level = 0;
-                return true;
-            }
+//            else if (old.gm_room == 153 && current.gm_room == 225)
+//            {
+//                vars.worldmap = 153;
+//                vars.last_level = 0;
+//                return true;
+//            }
         }
     }
 
